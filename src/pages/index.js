@@ -1,27 +1,57 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, Modal } from 'react-bootstrap';
 import './styles.css'
-import document from './document.pdf'
+// import document from './document.pdf'
 
-const Home = () => {
+const Home = (props) => {
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
+
+    const [companyDetails, setcompanyDetails] = useState({
+        name: "",
+        address: "",
+        mobile: "",
+        email: "",
+        website: ""
+    });
+    const [customerDetails, setcustomerDetails] = useState({
+        name: "",
+        address: "",
+        mobile: "",
+        email: "",
+    });
+    const [productDetails, setproductDetails] = useState({
+        p1Name: "",
+        p1Quantity: "",
+        p2Name: "",
+        p2Quantity: ""
+    });
+
+    useEffect(() => {
+        if (!props.location.state) {
+            props.history.push('/')
+        } else {
+            setcompanyDetails(props.location.state.companyDetails)
+            setcustomerDetails(props.location.state.customerDetails)
+            setproductDetails(props.location.state.productDetails)
+        }
+    }, []);
 
     const html = `<center>
     <table>
         <tr>
             <td colSpan="4" rowSpan="3">
                 <b>
-                    Max Electronics
+                 ${companyDetails.name}
                 </b><br />
-                Shiva Nagar banglore<br/>
-                Contact Number: 9701118976<br/>
-                Email: max@electronics.com<br/>
-                www.maxelectronics.com
+                ${companyDetails.address}<br/>
+                Contact Number: ${companyDetails.mobile}<br/>
+                Email: ${companyDetails.email}<br/>
+                ${companyDetails.website}
             </td>
             <td colSpan="2">
                 Voucher No.<br/>
@@ -29,7 +59,7 @@ const Home = () => {
             </td>
             <td colSpan="2">
                 Dated<br/>
-                <b>17-Mar-2020</b>
+                <b>${new Date(Date.now())}</b>
             </td>
         </tr>
         <tr>
@@ -48,9 +78,10 @@ const Home = () => {
         <tr>
             <td colSpan="4" rowSpan="2">
                 Dispatch To<br/>
-                <b> High Tech Computer World </b><br/>
-                Banglore,<br/>
-                Karnataka
+                <b> ${customerDetails.name} </b><br/>
+                ${customerDetails.address}<br/>
+                ${customerDetails.mobile}<br/>
+                ${customerDetails.email}
             </td>
             <td colSpan="2">Dispatch through <br/> <b> By Road </b></td>
             <td colSpan="2">Destination</td>
@@ -62,12 +93,13 @@ const Home = () => {
             </td>
         </tr>
         <tr>
-            <td colSpan="4">
-                Dispatch To<br/>
-                <b> High Tech Computer World </b><br/>
-                Banglore,<br/>
-                Karnataka
-            </td>
+        <td colSpan="4" >
+        Dispatch To<br/>
+        <b> ${customerDetails.name} </b><br/>
+        ${customerDetails.address}<br/>
+        ${customerDetails.mobile}<br/>
+        ${customerDetails.email}
+    </td>
         </tr>
         <tr>
             <td>SL</td>
@@ -81,9 +113,9 @@ const Home = () => {
         </tr>
         <tr>
             <td>1</td>
-            <td>Asus 15.6 Inch Monitor</td>
+            <td>${productDetails.p1Name}</td>
             <td>3 Days</td>
-            <td>10 Nos</td>
+            <td>${productDetails.p1Quantity} Nos</td>
             <td>7020</td>
             <td>Nos</td>
             <td>10%</td>
@@ -91,9 +123,9 @@ const Home = () => {
         </tr>
         <tr>
             <td>2</td>
-            <td>Dell 12 Inch Monitor</td>
+            <td>${productDetails.p2Name}</td>
             <td>3 Days</td>
-            <td>10 Nos</td>
+            <td>${productDetails.p2Quantity} Nos</td>
             <td>8000</td>
             <td>Nos</td>
             <td>10%</td>
@@ -125,7 +157,7 @@ const Home = () => {
             <td colSpan="4" rowSpan="4"></td>
         </tr>
         <tr>
-            <td colSpan="4">Max Electronics</td>
+            <td colSpan="4">${companyDetails.name}</td>
         </tr>
         <tr>
             <td></td>
@@ -143,10 +175,9 @@ const Home = () => {
 </center>`
     return (
 
-        <div classNameNameName='container' >
+        <div className='container' >
             <center>
                 <div ref={componentRef} style={{ marginTop: '50px', marginBottom: '50px' }} dangerouslySetInnerHTML={{ __html: html }}>
-
                 </div>
                 <Button onClick={handlePrint} style={{ marginRight: '30px', padding: '10px 20px' }}>Download</Button>
                 <ViewPdf html={html} />
@@ -161,13 +192,13 @@ function ViewPdf({ html }) {
     const [show, setshow] = useState(false);
     const handleClose = () => setshow(false);
 
-    console.log(html)
     return (
         <>
-            <a className='btn btn-primary' href={document} style={{ marginRight: '30px', padding: '10px 20px' }}>View PDF</a>
+            {/* //eslint-disable-next-line */}
+            <a className='btn btn-primary' onClick={() => setshow(true)} style={{ marginRight: '30px', padding: '10px 20px' }}>View PDF</a>
             <Modal show={show} size="lg" onHide={handleClose} keyboard={false} aria-labelledby="contained-modal-title-vcenter">
                 <Modal.Body>
-                    <div classNameName='container' style={{ margin: '100px' }} dangerouslySetInnerHTML={{ __html: html }}>
+                    <div classNameName='container' style={{ margin: '80px' }} dangerouslySetInnerHTML={{ __html: html }}>
 
                     </div><br />
                 </Modal.Body>
