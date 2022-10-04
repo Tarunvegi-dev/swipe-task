@@ -39,7 +39,7 @@ const Home = (props) => {
             setcustomerDetails(props.location.state.customerDetails)
             setproductDetails(props.location.state.productDetails)
         }
-    }, []);
+    }, [props.history, props.location]);
 
     const html = `<center>
     <table>
@@ -195,7 +195,7 @@ function ViewPdf({ html }) {
     return (
         <>
             {/* //eslint-disable-next-line */}
-            <a className='btn btn-primary' onClick={() => setshow(true)} style={{ marginRight: '30px', padding: '10px 20px' }}>View PDF</a>
+            <Button className='btn btn-primary' onClick={() => setshow(true)} style={{ marginRight: '30px', padding: '10px 20px' }}>View PDF</Button>
             <Modal show={show} size="lg" onHide={handleClose} keyboard={false} aria-labelledby="contained-modal-title-vcenter">
                 <Modal.Body>
                     <div classNameName='container' style={{ margin: '80px' }} dangerouslySetInnerHTML={{ __html: html }}>
