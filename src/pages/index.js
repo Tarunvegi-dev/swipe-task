@@ -39,7 +39,7 @@ const Home = (props) => {
             setcustomerDetails(props.location.state.customerDetails)
             setproductDetails(props.location.state.productDetails)
         }
-    }, [props.history, props.location]);
+    }, [props.history]);
 
     const html = `<center>
     <table>
@@ -186,7 +186,6 @@ const Home = (props) => {
     );
 };
 
-export default Home;
 
 function ViewPdf({ html }) {
     const [show, setshow] = useState(false);
@@ -206,3 +205,5 @@ function ViewPdf({ html }) {
         </>
     )
 }
+
+export default Home;
