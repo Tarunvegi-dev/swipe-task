@@ -1,5 +1,5 @@
 import Form from "./pages/InvoiceForm";
-import Invoice from "./pages";
+import Invoice from "./pages/Home";
 import './pages/styles.css'
 import { Route, Switch } from "react-router-dom";
 

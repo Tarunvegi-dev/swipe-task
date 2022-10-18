@@ -39,7 +39,7 @@ const Home = (props) => {
             setcustomerDetails(props.location.state.customerDetails)
             setproductDetails(props.location.state.productDetails)
         }
-    }, [props.history]);
+    }, [props.history, props.location.state]);
 
     const html = `<center>
     <table>
